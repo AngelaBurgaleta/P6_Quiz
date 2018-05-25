@@ -16,28 +16,14 @@ const cloudinary_upload_options = {
 };
 
 // Autoload the quiz with id equals to :quizId
-exports.load = (req, res, next, quizId) => {
+eexports.load = (req, res, next, quizId) => {
 
-    const options = {
+    models.quiz.findById(quizId, {
         include: [
-            models.tip,
-            models.attachment,
+            {model: models.tip,include:[{model: models.user, as: 'author'}]},
             {model: models.user, as: 'author'}
         ]
-    };
-
-    // For logged in users: include the favourites of the question by filtering by
-    // the logged in user with an OUTER JOIN.
-    if (req.session.user) {
-        options.include.push({
-            model: models.user,
-            as: "fans",
-            where: {id: req.session.user.id},
-            required: false  // OUTER JOIN
-        });
-    }
-
-    models.quiz.findById(quizId, options)
+    })
     .then(quiz => {
         if (quiz) {
             req.quiz = quiz;
@@ -48,6 +34,7 @@ exports.load = (req, res, next, quizId) => {
     })
     .catch(error => next(error));
 };
+
 
 
 // MW that allows actions only if the user logged in is admin or is the author of the quiz.
