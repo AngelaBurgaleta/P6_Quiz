@@ -55,6 +55,8 @@ router.get('/author', (req, res, next) => {
 });
 
 
+
+
 // Autoload for routes using :quizId
 router.param('quizId', quizController.load);
 router.param('userId', userController.load);
@@ -152,6 +154,9 @@ router.delete('/users/:userId(\\d+)/favourites/:quizId(\\d+)',
     sessionController.loginRequired,
     sessionController.adminOrMyselfRequired,
     favouriteController.del);
+
+router.get('/quizzes/randomplay', quizController.randomplay);
+router.get('/quizzes/randomcheck/:quizId(\\d+)', quizController.randomcheck);
 
 
 module.exports = router;
