@@ -143,6 +143,10 @@ router.delete('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
     sessionController.loginRequired,
     quizController.adminOrAuthorRequired,
     tipController.destroy);
+//Routes for the resource of editTip
+router.get('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/edit', sessionController.loginRequired,tipController.adminOrAuthorRequired,tipController.edit);
+router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)', sessionController.loginRequired, tipController.adminOrAuthorRequired,tipController.update);
+
 
 
 // Routes for the resource favourites of a user
